@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { useAuthStore, useUserStore } from '@/store';
-import { Users, Shirt, Trophy, Calendar, Activity, UserCheck, UserX } from 'lucide-react';
+import { useAuthStore, useDashboardStore } from '@/store';
+import { Users, Shirt, Trophy, Calendar, Activity, UserCheck } from 'lucide-react';
 
 function StatCard({ icon: Icon, label, value, color }) {
   return (
@@ -36,47 +36,55 @@ function RoleCard({ icon: Icon, title, description, path }) {
 
 export default function Dashboard() {
   const { user } = useAuthStore();
-  const { stats, fetchStats } = useUserStore();
+  const { stats, fetchStats, isLoading } = useDashboardStore();
 
   useEffect(() => {
-    if (user?.role === 'super_admin') {
+    if (user) {
       fetchStats();
     }
-  }, [user?.role]);
+  }, [user, fetchStats]);
 
   const renderDashboard = () => {
+    if (isLoading) {
+      return (
+        <div className="flex items-center justify-center h-64">
+          <div className="text-lg text-slate-500 animate-pulse">Chargement des statistiques...</div>
+        </div>
+      );
+    }
+
     switch (user?.role) {
       case 'super_admin':
         return (
           <div className="space-y-6">
             <div>
               <h1 className="text-2xl font-bold text-slate-900">Dashboard Super Admin</h1>
-              <p className="text-slate-500 mt-1">Bienvenue sur le tableau de bord administrateur</p>
+              <p className="text-slate-500 mt-1">Statistiques globales du système</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <StatCard 
                 icon={Users} 
-                label="Total Utilisateurs" 
-                value={stats?.total} 
+                label="Utilisateurs" 
+                value={stats?.utilisateurs_par_role?.reduce((sum, r) => sum + r.count, 0)}
                 color="bg-blue-50 text-blue-600" 
               />
               <StatCard 
-                icon={UserCheck} 
-                label="Utilisateurs Actifs" 
-                value={stats?.active} 
-                color="bg-green-50 text-green-600" 
+                icon={Shirt} 
+                label="Clubs" 
+                value={stats?.total_clubs} 
+                color="bg-emerald-50 text-emerald-600" 
               />
               <StatCard 
                 icon={Trophy} 
-                label="Compétitions" 
-                value={0} 
+                label="Compétitions Actives" 
+                value={stats?.total_competitions_actives} 
                 color="bg-purple-50 text-purple-600" 
               />
               <StatCard 
                 icon={Calendar} 
-                label="Matchs Programmés" 
-                value={0} 
+                label="Matchs à Venir" 
+                value={stats?.matchs_a_venir} 
                 color="bg-orange-50 text-orange-600" 
               />
             </div>
@@ -84,7 +92,7 @@ export default function Dashboard() {
             <div className="bg-white rounded-xl border border-slate-200 p-6">
               <h2 className="font-semibold text-slate-900 mb-4">Répartition par rôle</h2>
               <div className="space-y-3">
-                {stats?.byRole?.map((item) => (
+                {stats?.utilisateurs_par_role?.map((item) => (
                   <div key={item.role} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
                     <span className="text-sm font-medium text-slate-700 capitalize">{item.role.replace('_', ' ')}</span>
                     <span className="text-sm font-bold text-slate-900">{item.count}</span>

@@ -162,12 +162,31 @@ export const useUserStore = create((set, get) => ({
     }
   },
 
-  fetchStats: async () => {
+  fetchUserStats: async () => {
     try {
       const response = await userAPI.getStats();
       set({ stats: response.data.data });
     } catch (error) {
-      console.error('Failed to fetch stats');
+      console.error('Failed to fetch user stats');
     }
   }
 }));
+
+import { dashboardAPI } from '../api';
+
+export const useDashboardStore = create((set, get) => ({
+  stats: null,
+  isLoading: false,
+  error: null,
+
+  fetchStats: async () => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await dashboardAPI.getStats();
+      set({ stats: response.data.data, isLoading: false });
+    } catch (error) {
+      console.error('Dashboard stats error:', error);
+      set({ error: error.response?.data?.message || 'Failed to fetch stats', isLoading: false });
+    }
+  }
+})); 
