@@ -127,17 +127,37 @@ export default function Dashboard() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <StatCard icon={Shirt} label="Clubs" value="3" color="bg-blue-50 text-blue-600" />
-              <StatCard icon={Users} label="Joueurs" value="8" color="bg-green-50 text-green-600" />
-              <StatCard icon={Trophy} label="Compétitions" value="2" color="bg-purple-50 text-purple-600" />
-              <StatCard icon={Calendar} label="Matchs" value="3" color="bg-orange-50 text-orange-600" />
+              <StatCard 
+                icon={Shirt} 
+                label="Clubs Actifs" 
+                value={stats?.total_clubs} 
+                color="bg-emerald-50 text-emerald-600" 
+              />
+              <StatCard 
+                icon={Users} 
+                label="Joueurs Actifs" 
+                value={stats?.total_joueurs} 
+                color="bg-blue-50 text-blue-600" 
+              />
+              <StatCard 
+                icon={Trophy} 
+                label="Compétitions Actives" 
+                value={stats?.total_competitions_actives} 
+                color="bg-purple-50 text-purple-600" 
+              />
+              <StatCard 
+                icon={Calendar} 
+                label="Matchs à Venir" 
+                value={stats?.matchs_a_venir} 
+                color="bg-orange-50 text-orange-600" 
+              />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <RoleCard icon={Shirt} title="Clubs" description="Gérer les clubs" path="/clubs" />
-              <RoleCard icon={Users} title="Joueurs" description="Gérer les joueurs" path="/joueurs" />
-              <RoleCard icon={Trophy} title="Compétitions" description="Gérer les compétitions" path="/competitions" />
-              <RoleCard icon={Calendar} title="Matchs" description="Gérer les matchs" path="/matchs" />
+              <RoleCard icon={Shirt} title="Clubs" description="Gérer les clubs" path="/football/clubs" />
+              <RoleCard icon={Users} title="Joueurs" description="Gérer les joueurs" path="/football/joueurs" />
+              <RoleCard icon={Trophy} title="Compétitions" description="Gérer les compétitions" path="/football/competitions" />
+              <RoleCard icon={Calendar} title="Matchs" description="Gérer les matchs" path="/football/matchs" />
             </div>
           </div>
         );
@@ -151,14 +171,34 @@ export default function Dashboard() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <StatCard icon={Users} label="Joueurs" value="0" color="bg-blue-50 text-blue-600" />
-              <StatCard icon={Calendar} label="Matchs à venir" value="0" color="bg-green-50 text-green-600" />
-              <StatCard icon={Activity} label="Dernière activité" value="-" color="bg-purple-50 text-purple-600" />
+              <StatCard 
+                icon={Users} 
+                label="Joueurs du Club" 
+                value={stats?.total_joueurs || 0} 
+                color="bg-blue-50 text-blue-600" 
+              />
+              <StatCard 
+                icon={Calendar} 
+                label="Matchs à Venir" 
+                value={stats?.matchs_a_venir || 0} 
+                color="bg-green-50 text-green-600" 
+              />
+              <StatCard 
+                icon={Activity} 
+                label="Participations" 
+                value={stats?.utilisateurs_par_role?.find(r => r.role === 'responsable_club')?.count || 0} 
+                color="bg-purple-50 text-purple-600" 
+              />
             </div>
 
             <div className="bg-white rounded-xl border border-slate-200 p-6">
               <h2 className="font-semibold text-slate-900 mb-4">Mon Club</h2>
-              <p className="text-slate-500">Aucun club associé pour le moment.</p>
+              <p className="text-slate-500">Club associé via votre profil (club_id). Stats globales affichées.</p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <RoleCard icon={Users} title="Joueurs" description="Gérer joueurs du club" path="/football/joueurs" />
+              <RoleCard icon={Calendar} title="Matchs" description="Matchs du club" path="/football/matchs" />
             </div>
           </div>
         );
