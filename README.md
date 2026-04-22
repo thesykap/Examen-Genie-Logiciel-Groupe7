@@ -30,7 +30,7 @@ football-manager/
 ## Prérequis
 
 - Node.js 18+
-- PostgreSQL 14+
+- Mysql2
 - npm ou yarn
 
 ## Installation
@@ -86,13 +86,13 @@ npm run dev
 
 ## Comptes de test (seedés automatiquement)
 
-| Rôle | Email | Mot de passe |
-|------|-------|--------------|
-| Super Admin | admin@football.com | Admin123* |
-| Admin Sportif | admin@sport.com | Admin123* |
-| Responsable Club | ocjs@club.com | Admin123* |
-| Arbitre | arbitre@test.com | Admin123* |
-| Visiteur | visiteur@test.com | Admin123* |
+| Rôle | Email |
+|------|-------|
+| Super Admin | 
+| Admin Sportif |
+| Responsable Club |
+| Arbitre |
+| Visiteur |
 
 ## Fonctionnalités implémentées (Phase 1)
 
