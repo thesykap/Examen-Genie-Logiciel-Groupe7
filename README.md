@@ -60,7 +60,7 @@ PORT=5000
 NODE_ENV=development
 
 DB_HOST=localhost
-DB_PORT=5432
+DB_PORT=3306
 DB_NAME=football_management
 DB_USER=root
 DB_PASSWORD=
