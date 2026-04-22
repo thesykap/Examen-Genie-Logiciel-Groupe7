@@ -62,8 +62,8 @@ NODE_ENV=development
 DB_HOST=localhost
 DB_PORT=5432
 DB_NAME=football_management
-DB_USER=postgres
-DB_PASSWORD=postgres
+DB_USER=root
+DB_PASSWORD=
 
 JWT_SECRET=your_secret_key
 JWT_EXPIRES_IN=24h
